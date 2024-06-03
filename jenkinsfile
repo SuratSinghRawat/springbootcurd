@@ -5,16 +5,14 @@ pipeline
         stage("Checkout from git "){
             steps{
                git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
-               stash includes: "**" , name: "first_stash"
+               stash includes: "**" , name:"first_stash"
             }
         }
         stage("Packaging build "){
             agent {label 'sonar'}
             steps{
-                script{
-                    unstash "first_stash"
-                    sh 'mvn clean package'
-                }
+                  unstash "first_stash"
+                  sh 'mvn clean package'
             }
         }
     }
