@@ -5,7 +5,7 @@ pipeline
         stage("Checkout from git "){
             steps{
                git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
-               stash(name: 'first_stash', includes: '**')
+               stash(name: 'first_stash', includes: '*')
             }
         }
         stage("Packaging build "){
