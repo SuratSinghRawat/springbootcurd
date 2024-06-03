@@ -1,20 +1,21 @@
 pipeline
 {
-    agent {label 'sonar'}
+    agent any
     stages{
-        stage("SonarQube Quality Check"){
-            agent{
-                docker {
-                    image 'maven'
-                }
-            }
+        stage("Checkout from git "){
             steps{
-            script{
-                withSonarQubeEnv(credentialsId: 'sonar-token') {
-                    sh 'mvn clean package sonar:sonar'
+               git url: "https://github.com/SuratSinghRawat/springbootcurd.git"
+               stash includes: "**" , name: "first_stash"
+            }
+        stage("Packaging build "){
+            steps{
+                agent {label 'sonar'}
+                script{
+                    unstash "first_stash"
+                    sh 'mvn clean package'
                 }
             }
-            }
+        }
         }
 
     }
