@@ -1,0 +1,21 @@
+pipeline
+{
+    agent any
+    stages{
+        stage("Checkout from git "){
+            agent{
+                docker {
+                    image 'maven'
+                }
+            }
+            steps{
+            script{
+                withSonarQubeEnv(credentialsId: 'sonar-token') {
+                    sh 'mvn clean package sonar:sonar'
+                }
+            }
+            }
+        }
+
+    }
+}
