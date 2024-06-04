@@ -18,8 +18,10 @@ pipeline
             agent {label 'sonar'}
             steps{
                   unstash(name:'test')
-                  withSonarQubeEnv(credentialsId: 'sonar-token') {
-                     sh 'mvn clean package sonar:sonar'
+                  script{
+                      withSonarQubeEnv(credentialsId: 'sonar-token') {
+                         sh 'mvn clean package sonar:sonar'
+                      }
                   }
 //                   sh 'mvn clean package'
 //                   sh 'ls'
