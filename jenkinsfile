@@ -5,14 +5,15 @@ pipeline
         stage("Checkout from git "){
             steps{
                git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
-               stash(name: 'first_stash', includes: 'D:/data/jenkins_home/workspace/CI-SpringBoot/*/*.*')
+               stash(name: 'first_stash', includes: 'D:/data/jenkins_home/workspace/CI-SpringBoot/*', allowEmpty: true)
             }
         }
         stage("Packaging build "){
             agent {label 'sonar'}
             steps{
                   unstash 'first_stash'
-                  sh 'mvn clean package'
+                  //sh 'mvn clean package'
+                  sh 'ls'
             }
         }
     }
