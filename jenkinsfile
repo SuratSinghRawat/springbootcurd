@@ -23,8 +23,14 @@ pipeline
                          sh 'mvn clean package sonar:sonar'
                       }
                   }
-//                   sh 'mvn clean package'
-//                   sh 'ls'
+            }
+        }
+        stage("Checkout from git "){
+            agent {label 'sonar'}
+            steps{
+                script{
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+                }
             }
         }
     }
