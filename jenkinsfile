@@ -13,11 +13,9 @@ pipeline
         stage("Packaging build "){
             agent {label 'sonar'}
             steps{
-
-                      unstash 'first_stash'
-                      //sh 'mvn clean package'
-                      sh 'ls'
-
+                  unstash(name:'first_stash')
+                  //sh 'mvn clean package'
+                  sh 'ls'
             }
         }
     }
