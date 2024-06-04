@@ -18,7 +18,7 @@ pipeline
             agent {label 'sonar'}
             steps{
                   unstash(name:'test')
-                  //sh 'mvn clean package'
+                  sh 'mvn clean package'
                   sh 'ls'
             }
         }
