@@ -29,7 +29,7 @@ pipeline
             agent {label 'sonar'}
             steps{
                 script{
-                  timeout(time: 1, unit: 'HOURS') {
+                  timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
                     waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
                   }
                 }
