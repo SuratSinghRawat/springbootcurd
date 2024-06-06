@@ -19,9 +19,12 @@ pipeline
             steps{
                   unstash(name:'test')
                   script{
-                      withSonarQubeEnv(credentialsId: 'sonar-token') {
+                    def qg = withSonarQubeEnv(credentialsId: 'sonar-token')
+                    if (qg.status != 'OK'){
+                        unstable("SonarQube quality gate failure: ${qg.status}")
+                    }else{
                          sh 'mvn clean package sonar:sonar'
-                      }
+                     }
                   }
             }
         }
