@@ -31,13 +31,15 @@ pipeline
             steps{
                 script{
                   timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                   def qg = waitForQualityGate(abortPipeline: true, credentialsId: 'sonar-token'){
-                     if (qg.status != 'OK'){
-                         unstable("SonarQube quality gate failure: ${qg.status}")
-                     }else{
-                        sh 'echo test successfull'
-                     }
-                   }
+                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                  }
+//                    def qg = waitForQualityGate(abortPipeline: true, credentialsId: 'sonar-token'){
+//                      if (qg.status != 'OK'){
+//                          unstable("SonarQube quality gate failure: ${qg.status}")
+//                      }else{
+//                         sh 'echo test successfull'
+//                      }
+//                    }
                   }
                 }
             }
