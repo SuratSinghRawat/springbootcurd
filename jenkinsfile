@@ -1,9 +1,9 @@
 pipeline
 {
     agent none
-    tools {
-             maven 'maven'
-        }
+    tools{
+       maven 'maven'
+    }
     stages{
         stage("Checkout from git "){
             agent any
@@ -32,14 +32,6 @@ pipeline
                 script{
                   timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
                     waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
-                  }
-//                    def qg = waitForQualityGate(abortPipeline: true, credentialsId: 'sonar-token'){
-//                      if (qg.status != 'OK'){
-//                          unstable("SonarQube quality gate failure: ${qg.status}")
-//                      }else{
-//                         sh 'echo test successfull'
-//                      }
-//                    }
                   }
                 }
             }

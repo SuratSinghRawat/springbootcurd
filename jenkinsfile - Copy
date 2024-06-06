@@ -19,3 +19,12 @@ pipeline
 
     }
 }
+
+
+//                    def qg = waitForQualityGate(abortPipeline: true, credentialsId: 'sonar-token'){
+//                      if (qg.status != 'OK'){
+//                          unstable("SonarQube quality gate failure: ${qg.status}")
+//                      }else{
+//                         sh 'echo test successfull'
+//                      }
+//                    }
