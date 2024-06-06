@@ -19,10 +19,8 @@ pipeline
             steps{
                   unstash(name:'test')
                   script{
-                    def qg = withSonarQubeEnv(credentialsId: 'sonar-token')
-                    if (qg.status != 'OK'){
-                        unstable("SonarQube quality gate failure: ${qg.status}")
-                    }else{
+                    withSonarQubeEnv(credentialsId: 'sonar-token')
+                    {
                          sh 'mvn clean package sonar:sonar'
                      }
                   }
@@ -33,7 +31,13 @@ pipeline
             steps{
                 script{
                   timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                   def qg = waitForQualityGate(abortPipeline: true, credentialsId: 'sonar-token'){
+                     if (qg.status != 'OK'){
+                         unstable("SonarQube quality gate failure: ${qg.status}")
+                     }else{
+                        sh 'echo test successfull'
+                     }
+                   }
                   }
                 }
             }
