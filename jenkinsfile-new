@@ -14,11 +14,12 @@ pipeline
                //stash(name: 'first_stash', includes: 'D:/data/jenkins_home/workspace/CI-SpringBoot/*', allowEmpty: true)
             }
         }
-        44444ws
+        stage("Packaging build "){
+            agent {label 'sonar'}
             steps{
                   unstash(name:'test')
                   script{
-                    withSonarQubeEnv(credentialsId: 'sonar-token')
+                    withSonarQubeEnv(credentialsId: 'Sonar-Jenkins')
                     {
                          sh 'mvn clean package sonar:sonar'
                      }
@@ -30,7 +31,7 @@ pipeline
             steps{
                 script{
                   timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                    waitForQualityGate abortPipeline: true, credentialsId: 'Sonar-Jenkins'
                   }
                 }
             }

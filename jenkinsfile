@@ -1,9 +1,9 @@
 pipeline
 {
     agent none
-    tools{
-       maven 'maven'
-    }
+    tools {
+             maven 'maven'
+        }
     stages{
         stage("Checkout from git "){
             agent any
@@ -19,21 +19,12 @@ pipeline
             steps{
                   unstash(name:'test')
                   script{
-                    withSonarQubeEnv(credentialsId: 'Sonar-Jenkins')
-                    {
+                      withSonarQubeEnv(credentialsId: 'sonar-token') {
                          sh 'mvn clean package sonar:sonar'
-                     }
+                      }
                   }
-            }
-        }
-        stage("Code Smell "){
-            agent {label 'sonar'}
-            steps{
-                script{
-                  timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                    waitForQualityGate abortPipeline: true, credentialsId: 'Sonar-Jenkins'
-                  }
-                }
+//                   sh 'mvn clean package'
+//                   sh 'ls'
             }
         }
     }
