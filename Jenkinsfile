@@ -25,7 +25,6 @@ pipeline
                      }
                 }
             }
-                
         }
         
         // stage("Code Smell "){
