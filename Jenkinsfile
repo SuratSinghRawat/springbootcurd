@@ -17,9 +17,9 @@ pipeline
             }
         }
         stage("Unstash and Packaging build"){
-            tools{
-                maven 'maven'
-            }
+            // tools{
+            //     maven 'maven'
+            // }
             agent{ label 'jenkins-agent-sonar'}
             steps{
                 unstash(name: 'test')
@@ -31,17 +31,16 @@ pipeline
                      }
                 }
             }
+        }        
+        stage("Code Smell Check "){
+            agent {label 'jenkins-agent-sonar'}
+            steps{
+                script{
+                  timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                  }
+                }
+            }
         }
-        
-        // stage("Code Smell "){
-        //     agent {label 'sonar'}
-        //     steps{
-        //         script{
-        //           timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-        //             waitForQualityGate abortPipeline: true, credentialsId: 'Sonar-Jenkins'
-        //           }
-        //         }
-        //     }
-        // }
     }
 }
