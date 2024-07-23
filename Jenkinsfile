@@ -17,6 +17,9 @@ pipeline
             }
         }
         stage("Unstash and Packaging build"){
+            tools{
+                maven 'maven'
+            }
             agent{ label 'jenkins-agent-sonar'}
             steps{
                 unstash(name: 'test')
