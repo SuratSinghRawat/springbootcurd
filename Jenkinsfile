@@ -1,9 +1,9 @@
 pipeline
 {
     agent none
-    tools{
-       maven 'maven'
-    }
+    // tools{
+    //    maven 'maven'
+    // }
     stages{
         stage("checkout from git and stash"){
             agent any
@@ -18,12 +18,12 @@ pipeline
             steps{
                 unstash(name:'test')
                 sh 'ls'
-                script{
-                    withSonarQubeEnv(credentialsId: 'Sonar-Jenkins')
-                    {
-                         sh 'mvn clean package sonar:sonar'
-                     }
-                }
+                // script{
+                //     withSonarQubeEnv(credentialsId: 'Sonar-Jenkins')
+                //     {
+                //          sh 'mvn clean package sonar:sonar'
+                //      }
+                // }
             }
         }
         
