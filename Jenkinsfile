@@ -10,7 +10,10 @@ pipeline
             steps{
                 git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
                 bat 'dir'
-                stash(name: 'test', includes: '*', allowEmpty: true)
+                dir('../Springboot_Project)
+                {
+                    stash(name: 'test', includes: '*', allowEmpty: true)
+                }
             }
         }
         stage("Unstash and Packaging build"){
