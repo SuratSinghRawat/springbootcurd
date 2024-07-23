@@ -19,7 +19,7 @@ pipeline
         stage("Unstash and Packaging build"){
             agent{ label 'jenkins-agent-sonar'}
             steps{
-                unstash(name:'test')
+                unstash(name: 'test')
                 sh 'ls'
                 // script{
                 //     withSonarQubeEnv(credentialsId: 'Sonar-Jenkins')
