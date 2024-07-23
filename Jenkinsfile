@@ -10,7 +10,7 @@ pipeline
             steps{
                 git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
                 bat 'dir'
-                dir('../Springboot_Project)
+                dir('../Springboot_Project')
                 {
                     stash(name: 'test', includes: '*', allowEmpty: true)
                 }
