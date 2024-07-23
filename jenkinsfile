@@ -1,9 +1,9 @@
 pipeline
 {
     agent none
-    // tools{
-    //    maven 'maven'
-    // }
+    tools{
+       maven 'maven'
+    }
     stages{
         stage("checkout from git and stash"){
             agent any
