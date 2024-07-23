@@ -22,7 +22,7 @@ pipeline
                 unstash(name: 'test')
                 sh 'ls'
                 script{
-                    withSonarQubeEnv(credentialsId: 'Sonar-Jenkins')
+                    withSonarQubeEnv(credentialsId: 'sonar-token')
                     {
                          sh 'mvn clean package sonar:sonar'
                      }
