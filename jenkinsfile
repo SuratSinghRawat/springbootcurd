@@ -1,31 +1,42 @@
 pipeline
 {
     agent none
-    tools {
-             maven 'maven'
-        }
+    // tools{
+    //    maven 'maven'
+    // }
     stages{
-        stage("Checkout from git "){
+        stage("checkout from git and stash"){
             agent any
             steps{
-               git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
-
-               stash(name: 'test', includes: '*', allowEmpty: true)
-               //stash(name: 'first_stash', includes: 'D:/data/jenkins_home/workspace/CI-SpringBoot/*', allowEmpty: true)
+                git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
+                bat 'dir'
+                stash(name: 'test', includes: '*', allowEmpty: true)
             }
         }
-        stage("Packaging build "){
-            agent {label 'sonar'}
+        stage("Unstash and Packaging build"){
+            agent{ label 'jenkins-agent-sonar'}
             steps{
-                  unstash(name:'test')
-                  script{
-                      withSonarQubeEnv(credentialsId: 'sonar-token') {
+                unstash(name:'test')
+                sh 'ls'
+                script{
+                    withSonarQubeEnv(credentialsId: 'Sonar-Jenkins')
+                    {
                          sh 'mvn clean package sonar:sonar'
-                      }
-                  }
-//                   sh 'mvn clean package'
-//                   sh 'ls'
+                     }
+                }
             }
+                
         }
+        
+        // stage("Code Smell "){
+        //     agent {label 'sonar'}
+        //     steps{
+        //         script{
+        //           timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+        //             waitForQualityGate abortPipeline: true, credentialsId: 'Sonar-Jenkins'
+        //           }
+        //         }
+        //     }
+        // }
     }
 }
