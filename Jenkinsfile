@@ -29,11 +29,7 @@ pipeline
                     {
                          sh 'mvn clean package sonar:sonar'
                     }
-                    // timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                    //     script { 
-                    //         waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
-                    //     }
-                    // }
+                   waitForQualityGate abortPipeline: true 
                 }
             }
         }        
@@ -43,7 +39,7 @@ pipeline
                // script{
                   //timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
                        // script { 
-                            waitForQualityGate abortPipeline: true
+                           // waitForQualityGate abortPipeline: true
                        // }
                    // } 
               //  }
