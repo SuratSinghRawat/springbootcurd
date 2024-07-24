@@ -40,13 +40,13 @@ pipeline
         stage("Code Smell Check "){
             agent {label 'jenkins-agent-sonar'}
             steps{
-                script{
+               // script{
                   timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                        script { 
+                       // script { 
                             waitForQualityGate abortPipeline: true
-                        }
+                       // }
                     } 
-                }
+              //  }
             }
         }
     }
