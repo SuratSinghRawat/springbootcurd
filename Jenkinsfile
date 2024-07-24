@@ -29,27 +29,25 @@ pipeline
                     {
                          sh 'mvn clean package sonar:sonar'
                     }
-                    timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                        script { 
-                            waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
-                        }
-                    }
+                    // timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+                    //     script { 
+                    //         waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                    //     }
+                    // }
                 }
             }
         }        
-        // stage("Code Smell Check "){
-        //     agent {label 'jenkins-agent-sonar'}
-        //     steps{
-        //         script{
-        //           timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-        //                 // waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
-        //                 def qg = waitForQualityGate()
-        //                 if (qg.status != 'OK') {
-        //                         error "Pipeline aborted due to quality gate failure: ${qg.status}"
-        //                 }
-        //             } 
-        //         }
-        //     }
-        // }
+        stage("Code Smell Check "){
+            agent {label 'jenkins-agent-sonar'}
+            steps{
+                script{
+                  timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+                        script { 
+                            waitForQualityGate abortPipeline: true
+                        }
+                    } 
+                }
+            }
+        }
     }
 }
