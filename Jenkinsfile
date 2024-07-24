@@ -28,12 +28,15 @@ pipeline
                     withSonarQubeEnv(credentialsId: 'sonar-token')
                     {
                          sh 'mvn clean package sonar:sonar'
-                         sh sleep 30                         
+                         sh 'sleep 30'                         
                     }
                    
                 }
                 timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                   def qg = waitForQualityGate()
+                   if (qg.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                   }
                 } 
             }
         }        
@@ -43,7 +46,7 @@ pipeline
         //         script{
         //           timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
         //                 script { 
-        //                     waitForQualityGate abortPipeline: true
+        //                     waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
         //                 }
         //            }
         //         } 
