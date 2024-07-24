@@ -28,6 +28,7 @@ pipeline
                     withSonarQubeEnv(credentialsId: 'sonar-token')
                     {
                          sh 'mvn clean package sonar:sonar'
+                         sh sleep 30                         
                     }
                    
                 }
