@@ -41,11 +41,11 @@ pipeline
             agent {label 'jenkins-agent-sonar'}
             steps{
                // script{
-                  timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+                  //timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
                        // script { 
                             waitForQualityGate abortPipeline: true
                        // }
-                    } 
+                   // } 
               //  }
             }
         }
