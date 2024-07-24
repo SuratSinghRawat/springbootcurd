@@ -30,14 +30,14 @@ pipeline
                          sh 'mvn clean package sonar:sonar'
                          sh 'sleep 30'                         
                     }
-                   
+                   timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
+                    } 
                 }
-                timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
-                   def qg = waitForQualityGate()
-                   if (qg.status != 'OK') {
-                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                   }
-                } 
+                
             }
         }        
         // stage("Code Smell Check "){
