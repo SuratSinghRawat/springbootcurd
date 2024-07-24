@@ -31,7 +31,9 @@ pipeline
                     }
                    
                 }
-                waitForQualityGate abortPipeline: true 
+                timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+                    waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                } 
             }
         }        
         // stage("Code Smell Check "){
