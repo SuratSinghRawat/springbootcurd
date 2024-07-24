@@ -29,8 +29,8 @@ pipeline
                     {
                          sh 'mvn clean package sonar:sonar'
                     }
-                   waitForQualityGate abortPipeline: true 
-                }
+                   
+                }waitForQualityGate abortPipeline: true 
             }
         }        
         // stage("Code Smell Check "){
