@@ -1,5 +1,5 @@
-# FROM openjdk:17
-# WORKDIR /app
-# COPY ./target/HelloSpringBoot-0.0.1-SNAPSHOT.jar /app
-# EXPOSE 8080
-# CMD ["java", "-jar", "HelloSpringBoot-0.0.1-SNAPSHOT.jar"]
+FROM openjdk:17
+WORKDIR /app
+COPY springboot_ui_cicd.jar /app
+EXPOSE 8088
+CMD ["java", "-jar", "springboot_ui_cicd.jar"]

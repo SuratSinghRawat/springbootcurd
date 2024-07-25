@@ -4,6 +4,10 @@ pipeline
         skipDefaultCheckout true
     }
     agent none;
+    environment {
+        dockerImage = ''
+        imageName = 'testing-image'
+    }
     
     stages{
         stage("checkout from git and stash"){
@@ -60,6 +64,13 @@ pipeline
                 // script{                 
                     
                 // } 
+            }
+        }
+        stage("Building Image Jar Dockerfile"){
+            steps{
+                script{
+                   dockerImage = docker.build imageName
+                }
             }
         }
     }
