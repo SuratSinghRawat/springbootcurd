@@ -23,9 +23,10 @@ pipeline
                     withSonarQubeEnv(credentialsId: 'sonar-token')
                     {
                          sh 'mvn clean package sonar:sonar'
-                         sh 'sleep 30'                         
+                         sh 'sleep 10'                         
                     }                 
                 }
+                sh 'ls'
                 stash(name: 'nx-repo', includes: '/target/springboot_ui_cicd.jar dockerfile' , allowEmpty: true)
             }
         }        
