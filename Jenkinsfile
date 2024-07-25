@@ -26,7 +26,7 @@ pipeline
                          sh 'sleep 30'                         
                     }                 
                 }
-                stash(name: 'nx-repo', includes: '/target/springboot_ui_cicd.jar' 'dockerfile', allowEmpty: true)
+                stash(name: 'nx-repo', includes: '/target/springboot_ui_cicd.jar dockerfile' , allowEmpty: true)
             }
         }        
         stage("Code Smell Check "){
