@@ -55,7 +55,7 @@ pipeline
                 } 
             }
         }
-        stage("Nexus Repo upload"){
+        stage("Nexus server Unstash"){
             agent {label 'jenkins-agent-nexus'}
             steps{
                 unstash(name: 'nx-repo')
@@ -66,7 +66,8 @@ pipeline
                 // } 
             }
         }
-        stage("Building Image Jar Dockerfile"){
+        stage("Building Image on Nexus Server"){
+            agent {label 'jenkins-agent-nexus'}
             steps{
                 script{
                    dockerImage = docker.build imageName
