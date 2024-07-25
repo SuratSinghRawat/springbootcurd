@@ -70,7 +70,7 @@ pipeline
             agent {label 'jenkins-agent-nexus'}
             steps{
                 script{
-                   dockerImage = docker.build imageName
+                   dockerImage = docker.build imageName args '-u root'
                 }
             }
         }
