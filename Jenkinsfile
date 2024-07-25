@@ -27,7 +27,7 @@ pipeline
                     }                 
                 }
                 sh 'ls'
-                dir('/target'){
+                dir('/target/'){
                     stash(name: 'nx-repo', includes: 'springboot_ui_cicd.jar' , allowEmpty: true)
                 }
                 stash(name: 'nx-repo1', includes: 'dockerfile' , allowEmpty: true)
@@ -52,6 +52,7 @@ pipeline
             agent {label 'jenkins-agent-nexus'}
             steps{
                 unstash(name: 'nx-repo')
+                unstash(name: 'nx-repo1')
                 sh 'ls'
                 // script{                 
                     
