@@ -1,5 +1,8 @@
 pipeline
 {
+    options {
+        skipDefaultCheckout true
+    }
     agent none;
     
     stages{
