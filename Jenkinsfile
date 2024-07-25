@@ -27,9 +27,9 @@ pipeline
                     }                 
                 }
                 sh 'ls'
-                //dir('/target/'){
-                    stash(name: 'nx-repo', includes: '**/springboot_ui_cicd.jar' , allowEmpty: true)
-                //}
+                dir('target/'){
+                    stash(name: 'nx-repo', includes: 'springboot_ui_cicd.jar' , allowEmpty: true)
+                }
                 stash(name: 'nx-repo1', includes: 'dockerfile' , allowEmpty: true)
 
             }
