@@ -1,12 +1,15 @@
 pipeline
 {
     agent none;
-    
+    // tools{
+    //    maven 'maven'
+    // }
     stages{
         stage("checkout from git and stash"){
             agent any
             steps{
-                git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'                
+                git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'
+                bat 'dir'
                 dir('../Springboot_Project')
                 {
                     stash(name: 'test', includes: '*', allowEmpty: true)
@@ -14,7 +17,9 @@ pipeline
             }
         }
         stage("Unstash and Packaging build"){
-           
+            // tools{
+            //     maven 'maven'
+            // }
             agent{ label 'jenkins-agent-sonar'}
             steps{
                 unstash(name: 'test')
@@ -24,9 +29,15 @@ pipeline
                     {
                          sh 'mvn clean package sonar:sonar'
                          sh 'sleep 30'                         
-                    }                 
+                    }
+                //    timeout(time: 2, unit: 'MINUTES' /* 'HOURS' */) {
+                //         def qg = waitForQualityGate()
+                //         if (qg.status != 'OK') {
+                //                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                //         }
+                //     } 
                 }
-                stash(name: 'nx-repo', includes: '/target/springboot_ui_cicd.jar' 'dockerfile', allowEmpty: true)
+                
             }
         }        
         stage("Code Smell Check "){
@@ -41,16 +52,6 @@ pipeline
                         }
                    }
                 } 
-            }
-        }
-        stage("Nexus Repo upload"){
-            agent {label 'jenkins-agent-nexus'}
-            steps{
-                unstash(name: 'nx-repo')
-                sh 'ls'
-                // script{                 
-                    
-                // } 
             }
         }
     }
