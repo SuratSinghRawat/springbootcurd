@@ -23,11 +23,11 @@ pipeline
                     withSonarQubeEnv(credentialsId: 'sonar-token')
                     {
                          sh 'mvn clean package sonar:sonar'
-                         sh 'sleep 20'                         
+                         sh 'sleep 25'                         
                     }                 
                 }
                 sh 'ls'
-                stash(name: 'nx-repo', includes: './target/springboot_ui_cicd.jar' , allowEmpty: true)
+                stash(name: 'nx-repo', includes: 'target/springboot_ui_cicd.jar' , allowEmpty: true)
                 stash(name: 'nx-repo', includes: 'dockerfile' , allowEmpty: true)
 
             }
