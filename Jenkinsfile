@@ -69,7 +69,7 @@ pipeline
             }
         }
         stage("Upload Image @ Nexus Repo"){
-            agent any //{label 'jenkins-agent-nexus'}
+            agent{ label 'jenkins-agent-sonar'} //{label 'jenkins-agent-nexus'}
             // steps{		  
             //     nexusArtifactUploader artifacts: 
             //     [[artifactId: 'springbootcurd',
