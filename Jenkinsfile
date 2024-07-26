@@ -6,8 +6,10 @@ pipeline
     agent none;
     environment {
         dockerImage = ''
-        imageName = 'testing-image'
+        imageName = 'springboot_ui_cicd'
         VERSION = "${env.BUILD_ID}"
+        registryCredentials = "Nexus-Cred"
+        registry="34.131.68.218:8082/"
     }
     
     stages{
@@ -68,21 +70,27 @@ pipeline
         }
         stage("Upload Image @ Nexus Repo"){
             agent {label 'jenkins-agent-nexus'}
-            steps{		  
-                 nexusArtifactUploader artifacts: 
-                 [[artifactId: 'springbootcurd',
-                  classifier: '',
-                   file: 'springboot_ui_cicd.jar',
-                    type: 'jar'
-                    ]],
-                  credentialsId: 'Nexus-Cred',
-                   groupId: 'org.springframework.boot',
-                    nexusUrl: '34.131.68.218:8081',
-                     nexusVersion: 'nexus3',
-                      protocol: 'http',
-                       repository: 'springboot-curd',
-                        version: '0.0.1-SNAPSHOT'
-              }
+            // steps{		  
+            //     nexusArtifactUploader artifacts: 
+            //     [[artifactId: 'springbootcurd',
+            //     classifier: '',
+            //     file: 'springboot_ui_cicd.jar',
+            //     type: 'jar'
+            //     ]],
+            //     credentialsId: 'Nexus-Cred',
+            //     groupId: 'org.springframework.boot',
+            //     nexusUrl: '34.131.68.218:8081',
+            //     nexusVersion: 'nexus3',
+            //     protocol: 'http',
+            //     repository: 'springboot-curd',
+            //     version: '0.0.1-SNAPSHOT'
+            // }
+            steps{
+                script{
+                    docker.withRegistry('http://'+registry, registryCredentials){
+                    dockerImage.push("${env.BUILD_NUMBER}")                    
+                }
+            }
             // steps{
             //     script{
             //         //dockerImage = docker.build imageName
