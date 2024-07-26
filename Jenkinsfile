@@ -9,7 +9,7 @@ pipeline
         imageName = 'springboot_ui_cicd'
         VERSION = "${env.BUILD_ID}"
         registryCredentials = "Nexus-Cred"
-        registry="34.131.68.218:8082/"
+        registry="34.131.68.218:8081/repository/springboot-crud/"
     }
     
     stages{
