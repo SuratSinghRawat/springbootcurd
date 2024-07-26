@@ -7,6 +7,7 @@ pipeline
     environment {
         dockerImage = ''
         imageName = 'testing-image'
+        VERSION = "${env.BUILD_ID}"
     }
     
     stages{
@@ -55,25 +56,31 @@ pipeline
                 } 
             }
         }
-        stage("Nexus server Unstash"){
+        stage("Nexus server::Building Image"){
             agent {label 'jenkins-agent-nexus'}
             steps{
                 unstash(name: 'nx-repo')
                 unstash(name: 'nx-repo1')
-                sh 'ls'
-                // script{                 
-                    
-                // } 
+                script{
+                  dockerImage = docker.build imageName
+                }
             }
         }
-        stage("Building Image on Nexus Server"){
+        stage("Upload Image @ Nexus Repo"){
             agent {label 'jenkins-agent-nexus'}
             steps{
                 script{
-                   sh 'sudo -i'
-                   dockerImage = docker.build imageName
+                    //dockerImage = docker.build imageName
+                  withCredentials([string(credentialsId: 'nexus_passwd', variable: 'nexus_repo_creds')]) {
+                       sh '''
+                       docker build -t 34.131.68.218:8082/springapp:${VERSION} .
+                       docker login -u admin -p nexus 34.131.68.218:8082
+                       docker push 34.131.68.218:8082/springapp:${VERSION}
+                       docker rmi 34.131.68.218:8082/springapp:${VERSION}
+                    }
                 }
             }
         }
     }
 }
+
