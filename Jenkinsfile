@@ -68,20 +68,36 @@ pipeline
         }
         stage("Upload Image @ Nexus Repo"){
             agent {label 'jenkins-agent-nexus'}
-            steps{
-                script{
-                    //dockerImage = docker.build imageName
-                  withCredentials([string(credentialsId: 'nexus_passwd', variable: 'nexus_repo_creds')]) {
-                       sh '''
-                       docker build -t 34.131.68.218:8082/springapp:${VERSION} .
-                       docker login -u admin -p nexus 34.131.68.218:8082
-                       docker push 34.131.68.218:8082/springapp:${VERSION}
-                       docker rmi 34.131.68.218:8082/springapp:${VERSION}
-                       '''
-                    }
-                }
-            }
+            steps{		  
+                 nexusArtifactUploader artifacts: 
+                 [[artifactId: 'springbootcurd',
+                  classifier: '',
+                   file: 'springboot_ui_cicd',
+                    type: 'jar'
+                    ]],
+                  credentialsId: 'Nexus-Cred',
+                   groupId: 'org.springframework.boot',
+                    nexusUrl: '34.131.68.218:8081',
+                     nexusVersion: 'nexus3',
+                      protocol: 'http',
+                       repository: 'springboot-curd',
+                        version: '0.0.1-SNAPSHOT'
+              }
+            // steps{
+            //     script{
+            //         //dockerImage = docker.build imageName
+            //       withCredentials([string(credentialsId: 'nexus_passwd', variable: 'nexus_repo_creds')]) {
+            //            sh '''
+            //            docker build -t 34.131.68.218:8082/springapp:${VERSION} .
+            //            docker login -u admin -p nexus 34.131.68.218:8082
+            //            docker push 34.131.68.218:8082/springapp:${VERSION}
+            //            docker rmi 34.131.68.218:8082/springapp:${VERSION}
+            //            '''
+            //         }
+            //     }
+            // }
         }
     }
 }
+
 
