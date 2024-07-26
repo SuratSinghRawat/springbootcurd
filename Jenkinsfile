@@ -88,7 +88,8 @@ pipeline
             steps{
                 script{
                     docker.withRegistry('http://'+registry, registryCredentials){
-                    dockerImage.push("${env.BUILD_NUMBER}")                    
+                    dockerImage.push("${env.BUILD_ID}")   
+                    }                 
                 }
             }
             // steps{
