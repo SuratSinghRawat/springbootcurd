@@ -72,7 +72,7 @@ pipeline
                  nexusArtifactUploader artifacts: 
                  [[artifactId: 'springbootcurd',
                   classifier: '',
-                   file: 'springboot_ui_cicd',
+                   file: 'springboot_ui_cicd.jar',
                     type: 'jar'
                     ]],
                   credentialsId: 'Nexus-Cred',
