@@ -69,7 +69,7 @@ pipeline
             }
         }
         stage("Upload Image @ Nexus Repo"){
-            {label 'jenkins-agent-nexus'}
+            agent {label 'jenkins-agent-nexus'}
             // steps{		  
             //     nexusArtifactUploader artifacts: 
             //     [[artifactId: 'springbootcurd',
@@ -88,7 +88,7 @@ pipeline
             steps{
                 script{
                     docker.withRegistry('http://'+registry, registryCredentials){
-                    dockerImage.push("${env.BUILD_NUMBER}")   
+                        dockerImage.push("${env.BUILD_NUMBER}")   
                     }                 
                 }
             }
