@@ -123,8 +123,7 @@ pipeline
                        '''
                     }
                 }
-            }
-            // ############################################################################
+            }            
         }
         stage("Deploy Image on K8s server"){
             agent {label 'K8s-Master'}
@@ -144,7 +143,7 @@ pipeline
             }
         }
     }
-    post{
+    // post{
         // always{
         //      bcc: 'rawat.surat@gmail.com', body: 'thanks for connecting ', cc: 'rawat.surat@gmail.com', from: 'rawat.bluebell@gmail.com', replyTo: '', subject: 'Test email', to: 'rawat.surat@gmail.com'
         // }
@@ -165,7 +164,7 @@ pipeline
         //      echo 'This will run only if the state of the Pipeline has changed'  
         //      echo 'For example, if the Pipeline was previously failing but is now successful'  
         //  }  
-    }
+    // }
 }
 
 
