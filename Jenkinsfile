@@ -69,18 +69,18 @@ pipeline
                 }
             }
         }
-        stage("Upload Image @ Nexus Repo"){
+        stage("Upload Image : Nexus Repo"){
             agent {label 'jenkins-agent-nexus'}
             // ############################################################################
             // this section is for push artifects(.jar) on nexus 
             
-            steps{		  
-                // for RELEASE version    
-                nexusArtifactUploader artifacts: [[artifactId: 'springbootcurd', classifier: '', file: 'springboot_ui_cicd.jar', type: 'jar']], credentialsId: 'Nexus-Cred', groupId: 'com.dev', nexusUrl: '34.131.110.34:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'private-maven-hosted', version: '1.0'
-                // for SNAPSHOT version
-                //nexusArtifactUploader artifacts: [[artifactId: 'springbootcurd', classifier: '', file: 'springboot_ui_cicd.jar', type: 'jar']], credentialsId: 'Nexus-Cred', groupId: 'com.dev', nexusUrl: '34.131.110.34:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'private-maven-hosted-snapshot', version: '0.0.1-SNAPSHOT'
-                sh 'rm *'
-            }
+            // steps{		  
+            //     // for RELEASE version    
+            //     nexusArtifactUploader artifacts: [[artifactId: 'springbootcurd', classifier: '', file: 'springboot_ui_cicd.jar', type: 'jar']], credentialsId: 'Nexus-Cred', groupId: 'com.dev', nexusUrl: '34.131.110.34:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'private-maven-hosted', version: '1.0'
+            //     // for SNAPSHOT version
+            //     //nexusArtifactUploader artifacts: [[artifactId: 'springbootcurd', classifier: '', file: 'springboot_ui_cicd.jar', type: 'jar']], credentialsId: 'Nexus-Cred', groupId: 'com.dev', nexusUrl: '34.131.110.34:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'private-maven-hosted-snapshot', version: '0.0.1-SNAPSHOT'
+            //     sh 'rm *'
+            // }
             // ############################################################################
             // this section is for push docker image on nexus with IP and port
             // use these emv variables at top before stages section
