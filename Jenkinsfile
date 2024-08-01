@@ -145,9 +145,9 @@ pipeline
         }
     }
     post{
-        always{
-             bcc: 'rawat.surat@gmail.com', body: 'thanks for connecting ', cc: 'rawat.surat@gmail.com', from: 'rawat.bluebell@gmail.com', replyTo: '', subject: 'Test email', to: 'rawat.surat@gmail.com'
-        }
+        // always{
+        //      bcc: 'rawat.surat@gmail.com', body: 'thanks for connecting ', cc: 'rawat.surat@gmail.com', from: 'rawat.bluebell@gmail.com', replyTo: '', subject: 'Test email', to: 'rawat.surat@gmail.com'
+        // }
         // this is an example of all cenario 
         // always {  
         //      echo 'This will always run'  
