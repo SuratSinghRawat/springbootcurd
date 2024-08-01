@@ -131,7 +131,7 @@ pipeline
                 script{
                    withCredentials([string(credentialsId: 'nexus_image_test', variable: 'img_nexus_data')]) {
                         sh '''
-                        docker login -u admin -p nexus ${registry}
+                        docker login -u admin -p nexus ${REGISTRYIPPORT}
                         docker pull ${REGISTRYIPPORT}/${imageName}:${VERSION}
                         docker tag ${REGISTRYIPPORT}/${imageName}:${VERSION} ${imageName}
                         docker rmi ${REGISTRYIPPORT}/${imageName}:${VERSION}
