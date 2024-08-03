@@ -135,7 +135,7 @@ pipeline
                         docker pull ${REGISTRYIPPORT}/${imageName}:${VERSION}
                         docker tag ${REGISTRYIPPORT}/${imageName}:${VERSION} ${imageName}
                         docker rmi ${REGISTRYIPPORT}/${imageName}:${VERSION}
-                        docker run -d --name myfristapp -p 8089:8088 ${imageName}
+                        docker run -d --name myfristapp -p 8088:8088 ${imageName}
                         '''
                     }
                     
