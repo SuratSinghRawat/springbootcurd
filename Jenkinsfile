@@ -20,7 +20,7 @@ pipeline
                 git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'                
                 dir('../Springboot_Project')
                 {
-                    stash(name: 'test', includes: '*', allowEmpty: true)
+                    stash(name: 'test', includes: '**', allowEmpty: true)
                 }
             }
         }
