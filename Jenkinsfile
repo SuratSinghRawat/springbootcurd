@@ -62,7 +62,7 @@ pipeline
         stage("Nexus server::Building Image"){
             agent {label 'jenkins-agent-nexus'}
             steps{
-                unstash(name: 'nx-repo')
+                unstash(name: 'nx-repo')jenkins-agent-nexus
                 unstash(name: 'nx-repo1')
                 script{
                   dockerImage = docker.build imageName
