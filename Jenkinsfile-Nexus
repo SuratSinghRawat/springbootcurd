@@ -5,12 +5,20 @@ pipeline
     }
     agent none;
     environment {
-        dockerImage = ''
-        imageName = 'springboot_ui_cicd'
+        //dockerImage = ''
+       // imageName = 'springboot_ui_cicd'
         VERSION = "${env.BUILD_ID}"
         USERNAME = 'admin'
         registryCredentials = "Nexus-Cred"
         REGISTRYIPPORT="34.131.110.34:8082"
+
+        AWS_ACCOUNT_ID="211125636900"
+        AWS_DEFAULT_REGION="ap-south-1"
+        IMAGE_NAME="springapp"
+        AWS_REPO_NAME="react-spring-mongo/${IMAGE_NAME}"        
+        IMAGE_TAG="${env.BUILD_ID}"
+        REPOSITORY_URL="211125636900.dkr.ecr.ap-south-1.amazonaws.com/${AWS_REPO_NAME}"
+
     }
        
     stages{

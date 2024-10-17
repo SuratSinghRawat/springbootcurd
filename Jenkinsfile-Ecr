@@ -1,0 +1,101 @@
+pipeline
+{
+    options {
+        skipDefaultCheckout true
+    }
+    agent none;
+    environment {
+
+       // imageName = 'springboot_ui_cicd'
+        VERSION = "${env.BUILD_ID}"
+        USERNAME = 'admin'
+        registryCredentials = "Nexus-Cred"
+        REGISTRYIPPORT="34.131.110.34:8082"
+
+        dockerImage = ''
+        AWS_ACCOUNT_ID="211125636900"
+        AWS_DEFAULT_REGION="ap-south-1"
+        IMAGE_NAME="springapp"
+        AWS_REPO_NAME="react-spring-mongo/${IMAGE_NAME}"
+        IMAGE_TAG="1"
+        REPOSITORY_URL="211125636900.dkr.ecr.ap-south-1.amazonaws.com/${AWS_REPO_NAME}"
+
+    }
+       
+    stages{
+        stage("checkout from git and stash"){
+            agent any
+            steps{
+                git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'                
+                dir('../Springboot_Project')
+                {
+                    stash(name: 'test', includes: '**', allowEmpty: true)
+                }
+            }
+        }
+        stage("Sonar Server :Unstash and Packaging build"){
+
+            agent{ label 'jenkins-agent-sonar'}
+            steps{
+                unstash(name: 'test')
+                sh 'ls'
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonar-token')
+                    {
+                         sh 'mvn clean package sonar:sonar'
+                         sh 'sleep 25'
+                    }
+                }
+                sh 'ls'
+                dir('target/'){
+                    stash(name: 'nx-repo', includes: 'springboot_ui_cicd.jar' , allowEmpty: true)
+                }
+                stash(name: 'nx-repo1', includes: 'dockerfile' , allowEmpty: true)
+
+            }
+        }
+
+        stage("Sonar server::Building Image"){
+            agent{ label 'jenkins-agent-sonar'}
+            steps{
+                unstash(name: 'nx-repo')
+                unstash(name: 'nx-repo1')
+                script{
+                  dockerImage = docker.build ${IMAGE_NAME}:${IMAGE_TAG}
+                }
+            }
+        }
+        stage("Upload Image : ECR Repo"){
+           agent{ label 'jenkins-agent-sonar'}
+            steps{
+                script{           
+                       sh '''
+                        sh "aws ecr get-login-password --region ap-south-1| docker login --username AWS --password-stdin 211125636900.dkr.ecr.ap-south-1.amazonaws.com"
+                        docker tag ${dockerImage} ${REPOSITORY_URL}:${IMAGE_TAG}
+                        docker push ${REPOSITORY_URL}:${IMAGE_TAG}
+                       '''
+                }
+            }            
+        }
+        /* stage("Deploy Image on K8s server"){
+            agent {label 'K8s-Master'}
+            steps{
+                script{
+                   withCredentials([string(credentialsId: 'nexus_image_test', variable: 'img_nexus_data')]) {
+                        sh '''
+                        docker login -u admin -p nexus ${REGISTRYIPPORT}
+                        docker pull ${REGISTRYIPPORT}/${imageName}:${VERSION}
+                        docker tag ${REGISTRYIPPORT}/${imageName}:${VERSION} ${imageName}
+                        docker rmi ${REGISTRYIPPORT}/${imageName}:${VERSION}
+                        docker run -d --name myfristapp -p 8088:8088 ${imageName}
+                        '''
+                    }
+                    
+                }
+            }
+        } */
+    }
+
+}
+
+
