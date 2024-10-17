@@ -27,7 +27,7 @@ pipeline
             agent any
             steps{
                 git branch: 'main', url: 'https://github.com/SuratSinghRawat/springbootcurd.git'                
-                dir('../Springboot_Project')
+                dir('../ecr-springboot-image')
                 {
                     stash(name: 'test', includes: '**', allowEmpty: true)
                 }
