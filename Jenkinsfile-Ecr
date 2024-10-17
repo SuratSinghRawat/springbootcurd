@@ -61,7 +61,7 @@ pipeline
                 unstash(name: 'nx-repo')
                 unstash(name: 'nx-repo1')
                 script{
-                  dockerImage = docker.build ${IMAGE_NAME}:${IMAGE_TAG}
+                  dockerImage = docker.build ${IMAGE_NAME}:1
                 }
             }
         }
