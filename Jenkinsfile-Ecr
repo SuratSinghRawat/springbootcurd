@@ -64,7 +64,10 @@ pipeline
                 script{
                   //dockerImage = docker.build IMAGE_NAME:1
                   //sh 'docker build -t ${REGISTRYIPPORT}/${imageName}:${VERSION} .
-                  sh 'docker build -t react-spring-mongo/springapp .'
+                  sh '''
+                   docker build -t react-spring-mongo/springapp:1 .
+                   docker tag react-spring-mongo/springapp:1 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1
+                   '''
                 }
             }
         }
@@ -74,7 +77,7 @@ pipeline
                 script{           
                        sh '''
                         aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 211125636900.dkr.ecr.ap-south-1.amazonaws.com"
-                        docker tag react-spring-mongo/springapp:latest 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1
+                        
                         docker push 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1
                         //docker tag ${dockerImage} ${REPOSITORY_URL}:${IMAGE_TAG}
                         //docker push ${REPOSITORY_URL}:${IMAGE_TAG}
