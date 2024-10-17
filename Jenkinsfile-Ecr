@@ -73,9 +73,11 @@ pipeline
             steps{
                 script{           
                        sh '''
-                        sh "aws ecr get-login-password --region ap-south-1| docker login --username AWS --password-stdin 211125636900.dkr.ecr.ap-south-1.amazonaws.com"
-                        docker tag ${dockerImage} ${REPOSITORY_URL}:${IMAGE_TAG}
-                        docker push ${REPOSITORY_URL}:${IMAGE_TAG}
+                        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 211125636900.dkr.ecr.ap-south-1.amazonaws.com"
+                        docker tag react-spring-mongo/springapp:latest 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1
+                        docker push 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1
+                        //docker tag ${dockerImage} ${REPOSITORY_URL}:${IMAGE_TAG}
+                        //docker push ${REPOSITORY_URL}:${IMAGE_TAG}
                        '''
                 }
             }            
