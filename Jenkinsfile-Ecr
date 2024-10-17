@@ -62,7 +62,9 @@ pipeline
                 unstash(name: 'nx-repo')
                 unstash(name: 'nx-repo1')
                 script{
-                  dockerImage = docker.build IMAGE_NAME:1
+                  //dockerImage = docker.build IMAGE_NAME:1
+                  //sh 'docker build -t ${REGISTRYIPPORT}/${imageName}:${VERSION} .
+                  sh 'docker build -t react-spring-mongo/springapp .'
                 }
             }
         }

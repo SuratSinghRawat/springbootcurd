@@ -31,13 +31,12 @@ pipeline
             steps{
                 unstash(name: 'test')
                 sh 'ls'
-                sh 'mvn clean package'
-                // script{
-                //     withSonarQubeEnv(credentialsId: 'sonar-token')
-                //     {
-                //          sh 'mvn clean package sonar:sonar'
-                //          sh 'sleep 25'                         
-                //     }                 
+                script{
+                    withSonarQubeEnv(credentialsId: 'sonar-token')
+                    {
+                         sh 'mvn clean package sonar:sonar'
+                         sh 'sleep 25'                         
+                    }                 
                 }
                 sh 'ls'
                 dir('target/'){
