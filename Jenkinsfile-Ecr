@@ -17,7 +17,7 @@ pipeline
         AWS_DEFAULT_REGION="ap-south-1"
         IMAGE_NAME="springapp"
         AWS_REPO_NAME="react-spring-mongo/${IMAGE_NAME}"
-        IMAGE_TAG="1"
+        IMAGE_TAG="${env.BUILD_ID}"
         REPOSITORY_URL="211125636900.dkr.ecr.ap-south-1.amazonaws.com/${AWS_REPO_NAME}"
 
     }
@@ -57,7 +57,7 @@ pipeline
         }
 
         stage("Sonar server::Building Image"){
-            agent{ label 'jenkins-agent-sonar'}
+            agent{ label 'jenkins-agent-nexus'}
             steps{
                 unstash(name: 'nx-repo')
                 unstash(name: 'nx-repo1')
@@ -65,21 +65,21 @@ pipeline
                   //dockerImage = docker.build IMAGE_NAME:1
                   //sh 'docker build -t ${REGISTRYIPPORT}/${imageName}:${VERSION} .
                   sh '''
-                   docker build -t react-spring-mongo/springapp:1 .
-                   docker tag react-spring-mongo/springapp:1 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1
+                   docker build -t springapp:${IMAGE_TAG} .
+                   docker tag springapp:${IMAGE_TAG} 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:${IMAGE_TAG}
                    '''
                 }
             }
         }
         stage("Upload Image : ECR Repo"){
-           agent{ label 'jenkins-agent-sonar'}
+           agent{ label 'jenkins-agent-nexus'}
             steps{
                 script{           
                        sh '''
                         aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 211125636900.dkr.ecr.ap-south-1.amazonaws.com
                         
-                        docker push 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1
-                        docker rmi 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:1 react-spring-mongo/springapp:1
+                        docker push 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:${IMAGE_TAG}
+                        docker rmi 211125636900.dkr.ecr.ap-south-1.amazonaws.com/react-spring-mongo/springapp:${IMAGE_TAG} springapp:${IMAGE_TAG}
                        '''
                 }
             }            
